@@ -3,19 +3,20 @@ package semver
 import (
 	"fmt"
 
-	"k8s.io/apimachinery/pkg/util/version"
+	"github.com/blang/semver"
 )
 
 func ExampleSemVer() {
-	fmt.Printf("%v\n", version.MustParseSemantic("3.1.0").LessThan(version.MustParseSemantic("3.1.0-rev4")))
-	fmt.Printf("%v\n", version.MustParseSemantic("3.1.0-rev4").LessThan(version.MustParseSemantic("3.1.0")))
-	fmt.Printf("%v\n", version.MustParseSemantic("3.1.0-rev4").LessThan(version.MustParseSemantic("3.1.0-rev5")))
-	fmt.Printf("%v\n", version.MustParseSemantic("3.1.0-rev4").LessThan(version.MustParseSemantic("3.2.0")))
+	_, err := semver.ParseRange(">=v1.16.0-0")
+	if err != nil {
+		fmt.Printf("%v\n", err)
+	}
+
+	_, err = semver.ParseRange(">=1.16.0-0")
+	if err != nil {
+		fmt.Printf("%v\n", err)
+	}
 
 	// Output:
-	// false
-	// true
-	// true
-	// true
-	// false
+	// Could not parse Range ">=v1.16.0-0": Could not parse comparator ">=v" in ">=v1.16.0-0"
 }
